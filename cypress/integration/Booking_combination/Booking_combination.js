@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+
 
 
 describe('Booking Combination', ()=>{
@@ -53,6 +53,7 @@ describe('Booking Combination', ()=>{
         //uncheck the checkbox                            
         cy.get('#special').uncheck().should('not.be.checked').and('have.class', 'mx-2')
         cy.get('#special').uncheck().should('not.have.id', '#specialNeedsCertLabel')
+        cy.wait(3000)
     
     })
 
@@ -62,10 +63,14 @@ describe('Booking Combination', ()=>{
         cy.get('#special').check().should('be.checked')
         //attach file
         const yourFilePath = 'Ahmed.jpg';
-        cy.get('#specialNeedsCert').attachFile(yourFilePath)
+        cy.get('#specialNeedsCert').attachFile({filePath: yourFilePath, fileName:'Ahmed.jpg'})
         cy.wait(5000)
-        cy.get('span.d-block').should('contain', 'Ahmed.jpg')
-    })
+        cy.get('span.d-block').should('contain.text', 'Ahmed.jpg')
+       //remove attachment
+        cy.get('.text-danger > .svg-inline--fa > path').click()
+        cy.wait(5000)
+        cy.get('span.d-block').should('not.contain', 'Ahmed.jpg')
+    }) 
 
 
 
@@ -90,11 +95,12 @@ it('Addon', ()=>{
 
 
 
-it.only('Vehicle Type', ()=>{
+it('Vehicle Type', ()=>{
     cy.get('#vs4__combobox').click()
-    cy.contains('Two Seat').click({timeout:6000})
+    cy.contains('Two Seat').click()
     //assert
     cy.contains('Two Seat').should('be.visible')
+    cy.wait(6000)
     
 
 
@@ -111,7 +117,7 @@ it('CreditCard Payment', ()=>{
     //assert
     cy.contains('Credit Card').should('be.visible')
 
-    //pricing section
+
     
 })
 

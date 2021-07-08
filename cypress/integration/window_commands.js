@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+
 
 describe('window test suite commands', ()=>{
 
